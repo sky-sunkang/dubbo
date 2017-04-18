@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sunkang.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.sunkang.facade.entity.User" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="user_no" property="userNo" jdbcType="VARCHAR" />
+    <result column="user_type" property="userType" jdbcType="VARCHAR" />
+    <result column="main_user_id" property="mainUserId" jdbcType="BIGINT" />
+    <result column="user_pwd" property="userPwd" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="mobile_no" property="mobileNo" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="is_changed_pwd" property="isChangedPwd" jdbcType="INTEGER" />
+    <result column="pwd_error_count" property="pwdErrorCount" jdbcType="INTEGER" />
+    <result column="pwd_error_time" property="pwdErrorTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARBINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, version, create_time, user_no, user_type, main_user_id, user_pwd, user_name, 
+    mobile_no, status, last_login_time, is_changed_pwd, pwd_error_count, pwd_error_time, 
+    remark, email
+  </sql>
+  <select id="selectUserAll" resultMap="BaseResultMap">
+  	select 
+  		<include refid="Base_Column_List"/>
+  	from edu_edmo_pms_user
+  </select>
+  
+  <!-- 分页查询user -->
+  <select id="selectUser" parameterType="com.sunkang.facade.entity.User" resultMap="BaseResultMap">
+  	select 
+  		<include refid="Base_Column_List"/>
+  	from edu_edmo_pms_user
+  	<where>
+  		<if test="userNo != null and userNo != ''">
+  			user_no = #{userNo,jdbcType=VARCHAR}
+  		</if>
+  	</where>
+  	limit #{startSize,jdbcType=INTEGER} ,#{rows,jdbcType=INTEGER}
+  </select>
+  <!-- 分页查询user -->
+  <select id="countUser" parameterType="com.sunkang.facade.entity.User" resultType="Integer">
+  	select 
+  		count(1)
+  	from edu_edmo_pms_user
+  	<where>
+  		<if test="userNo != null and userNo != ''">
+  			user_no = #{userNo,jdbcType=VARCHAR}
+  		</if>
+  	</where>
+  </select>
+  
+  <!-- 分页查询user -->
+  <select id="selectById" parameterType="String" resultMap="BaseResultMap">
+  	select 
+  		<include refid="Base_Column_List"/>
+  	from edu_edmo_pms_user
+  	<where>
+  			id = #{value,jdbcType=VARCHAR}
+  	</where>
+  </select>
+  
+  
+</mapper>
